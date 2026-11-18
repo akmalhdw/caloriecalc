@@ -206,6 +206,19 @@ footer{padding:40px 0 50px;display:flex;justify-content:space-between;font-famil
 .lang .opt{position:relative;z-index:1;display:grid;place-items:center;font-family:"IBM Plex Mono";font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--mute);transition:color .2s}
 .lang:not(.id) .opt[data-l=en],.lang.id .opt[data-l=id]{color:var(--ink)}
 @media(max-width:640px){.tdee .ring{display:none}}
+input[type=number]{-moz-appearance:textfield}input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.adjust{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;margin:-14px 0 34px;padding:18px 22px;border:2.5px dashed var(--ink);border-radius:20px}
+.adjust>.label{width:100%;margin-bottom:-6px}
+.adj-f .fl{font-size:12px;margin-bottom:6px}
+.adj-f.grow{flex:1;min-width:240px}
+.qw{position:relative;width:170px}
+.qw input{padding-right:52px}
+.qw span{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--mute)}
+#qA,#qW{padding:11px 14px;font-size:15px}
+#qA{padding-right:44px}
+.flash{animation:fl .45s}
+@keyframes fl{0%{transform:scale(1)}40%{transform:scale(1.04)}100%{transform:scale(1)}}
+@media(max-width:640px){.qw{width:100%}.adj-f{width:100%}}
 @media(max-width:960px){
   .hero{grid-template-columns:1fr;min-height:auto;padding-top:40px}
   .stage{height:420px;order:-1}
@@ -295,6 +308,11 @@ footer{padding:40px 0 50px;display:flex;justify-content:space-between;font-famil
   <!-- RESULTS -->
   <section id="results" class="hidden">
     <div class="summary" id="summary"></div>
+    <div class="adjust">
+      <span class="label" data-i="adjL">Adjust instantly</span>
+      <div class="adj-f"><label class="fl" for="qW" data-i="weight">Weight</label><div class="qw"><input id="qW" type="number" step="0.1"><span id="qU" class="mono">lbs</span></div></div>
+      <div class="adj-f grow"><label class="fl" for="qA" data-i="act">Activity Level</label><select id="qA"></select></div>
+    </div>
 
     <div class="duo">
       <div class="slab tdee tilt">
@@ -340,7 +358,7 @@ footer{padding:40px 0 50px;display:flex;justify-content:space-between;font-famil
 </div>
 
 <div class="marq"><div id="mq"></div></div>
-<div class="wrap"><footer><span>© caloriecalc.org</span><span data-i="foot">Estimates only. Not medical advice.</span></footer></div>
+<div class="wrap"><footer><span>© caloriecalc.org</span></footer></div>
 
 <script>
 /* ---------- 3D DONUT (self-contained software renderer) ---------- */
@@ -441,7 +459,7 @@ safe:'Note: A safe and sustainable rate of weight loss is generally 1-2 pounds (
 n3:'03 / Coaching',coachH:'Need personalized guidance?',coachP:'Numbers and calculations are helpful, but nothing beats personalized coaching. Our certified fitness coaches will create a custom plan tailored to your unique body, goals, and lifestyle.',
 coachL:'<li>Personalized nutrition and workout plans</li><li>Regular progress tracking and adjustments</li><li>Accountability and motivation support</li>',
 n4:'04 / Macros',dietH:'Recommended Macronutrients<br>by Diet',g0:'Maintenance',g1:'Cutting (-500 cal)',g2:'Bulking (+500 cal)',
-macroNote:'Note: Protein and carbs contain 4 calories per gram, while fat contains 9 calories per gram.',foot:'Estimates only. Not medical advice.',
+macroNote:'Note: Protein and carbs contain 4 calories per gram, while fat contains 9 calories per gram.',adjL:'Adjust instantly',
 sGender:'Gender',sAge:'Age',years:' years',sHeight:'Height',sWeight:'Weight',sAct:'Activity',edit:'Edit',
 cats:['Underweight','Normal weight','Overweight','Obese'],thCal:'Daily Calories',thDay:'Daily Deficit',thWk:'Weekly Deficit',thChg:'Weekly',perDayShort:'kcal/day',
 target:'Daily Target',benefits:'Key Benefits',macros:['Protein','Carbs','Fat'],
@@ -465,7 +483,7 @@ safe:'Catatan: Laju penurunan berat yang aman dan berkelanjutan umumnya 0,5–1 
 n3:'03 / Pendampingan',coachH:'Butuh panduan personal?',coachP:'Angka dan perhitungan memang membantu, tapi pendampingan personal tetap tak tergantikan. Pelatih kebugaran bersertifikat kami akan menyusun rencana khusus sesuai tubuh, target, dan gaya hidupmu.',
 coachL:'<li>Rencana nutrisi dan latihan yang dipersonalisasi</li><li>Pemantauan progres dan penyesuaian rutin</li><li>Dukungan motivasi dan akuntabilitas</li>',
 n4:'04 / Makro',dietH:'Rekomendasi Makronutrien<br>per Diet',g0:'Jaga berat',g1:'Cutting (-500 kal)',g2:'Bulking (+500 kal)',
-macroNote:'Catatan: Protein dan karbohidrat mengandung 4 kalori per gram, sedangkan lemak mengandung 9 kalori per gram.',foot:'Hanya perkiraan. Bukan saran medis.',
+macroNote:'Catatan: Protein dan karbohidrat mengandung 4 kalori per gram, sedangkan lemak mengandung 9 kalori per gram.',adjL:'Ubah langsung',
 sGender:'Jenis kelamin',sAge:'Usia',years:' tahun',sHeight:'Tinggi',sWeight:'Berat',sAct:'Aktivitas',edit:'Ubah',
 cats:['Berat kurang','Normal','Berat berlebih','Obesitas'],thCal:'Kalori harian',thDay:'Defisit harian',thWk:'Defisit mingguan',thChg:'Per minggu',perDayShort:'kkal/hari',
 target:'Target harian',benefits:'Manfaat utama',macros:['Protein','Karbo','Lemak'],
@@ -488,7 +506,7 @@ function applyLang(){
   $('mq').innerHTML=Array(2).fill(T('marq').map((w,i)=>i%2?`<em>${w}</em>`:`<span>${w}</span>`).join('')).join('');
   if(S.res)renderResults(false);
 }
-$('lang').addEventListener('click',()=>{S.lang=S.lang==='en'?'id':'en';try{localStorage.setItem('cc-lang',S.lang)}catch(_){}applyLang()});
+$('lang').addEventListener('click',()=>{S.lang=S.lang==='en'?'id':'en';unitsForLang();try{localStorage.setItem('cc-lang',S.lang)}catch(_){}applyLang()});
 try{const l=localStorage.getItem('cc-lang');if(l==='id'||l==='en')S.lang=l;else if((navigator.language||'').startsWith('id'))S.lang='id'}catch(_){}
 
 document.querySelectorAll('.keys[data-name]').forEach(g=>g.addEventListener('click',e=>{
@@ -526,19 +544,30 @@ $('f').addEventListener('submit',e=>{e.preventDefault();
   show('eH',!(cm>=100&&cm<=250));
   const wv=+$('w').value,kg=S.wUnit==='lbs'?wv*0.45359237:wv;show('eW',!(kg>=25&&kg<=350));
   if(!ok)return;
-  const bmr=10*kg+6.25*cm-5*age+(S.gender==='male'?5:-161);
-  const ai=$('act').selectedIndex,tdee=Math.round(bmr*+$('act').value),m=cm/100,bmi=kg/(m*m);
-  S.res={tdee,bmi,m,age,hTxt,wv,unit:S.wUnit,gender:S.gender,ai};
+  S.res={kg,cm,age,hTxt,unit:S.wUnit,gender:S.gender,ai:$('act').selectedIndex};
+  compute();
   $('calc').classList.add('hidden');$('results').classList.remove('hidden');
   $('results').scrollIntoView();
   renderResults(true);
   document.querySelectorAll('#results .rise').forEach(el=>io.observe(el));
 });
 
-function renderResults(anim){const R=S.res,lbs=R.unit==='lbs',cv=x=>lbs?Math.round(x/0.45359237):Math.round(x);
+function compute(){const R=S.res;
+  const bmr=10*R.kg+6.25*R.cm-5*R.age+(R.gender==='male'?5:-161);
+  R.tdee=Math.round(bmr*[1.2,1.375,1.55,1.725,1.9][R.ai]);R.m=R.cm/100;R.bmi=R.kg/(R.m*R.m);
+  R.wv=R.unit==='lbs'?Math.round(R.kg/0.45359237*10)/10:Math.round(R.kg*10)/10;
+}
+function syncAdjust(){const R=S.res;$('qW').value=R.wv;$('qU').textContent=R.unit;
+  $('qA').innerHTML=[1,2,3,4,5].map(i=>`<option value="${i-1}">${T('a'+i)}</option>`).join('');$('qA').value=R.ai}
+function quick(){const R=S.res,v=+$('qW').value;
+  if(v){const kg=R.unit==='lbs'?v*0.45359237:v;if(kg>=25&&kg<=350)R.kg=kg;else return}
+  R.ai=+$('qA').value;compute();R.wv=v||R.wv;renderResults(false,true);
+  ['tdee','bmi'].forEach(id=>{const el=$(id);el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash')})}
+$('qW').addEventListener('input',quick);$('qA').addEventListener('change',quick);
+function renderResults(anim,fromQuick){const R=S.res,lbs=R.unit==='lbs',cv=x=>lbs?Math.round(x/0.45359237):Math.round(x);
   $('summary').innerHTML=[[T('sGender'),T(R.gender)],[T('sAge'),R.age+T('years')],[T('sHeight'),R.hTxt],[T('sWeight'),R.wv+' '+R.unit],[T('sAct'),T('a'+(R.ai+1)).split(' (')[0]]]
     .map(([k,v])=>`<span class="chip">${k}: <b>${v}</b></span>`).join('')+`<button class="btn light sm" id="edit" type="button">${T('edit')}</button>`;
-  $('edit').onclick=()=>{$('results').classList.add('hidden');$('calc').classList.remove('hidden');$('calc').scrollIntoView()};
+  $('edit').onclick=()=>{$('w').value=S.res.wv;$('act').selectedIndex=S.res.ai;$('results').classList.add('hidden');$('calc').classList.remove('hidden');$('calc').scrollIntoView()};
   const ci=R.bmi<18.5?0:R.bmi<25?1:R.bmi<30?2:3;
   $('bmiCat').textContent=T('cats')[ci];$('bmiCat').style.background=['var(--sky)','var(--sage)','var(--hot2)','var(--rose)'][ci];$('bmiCat').style.color=ci===2?'var(--ink)':'#fff';
   $('range').textContent=`${fmt(cv(18.5*R.m*R.m))} - ${fmt(cv(24.9*R.m*R.m))} ${R.unit}`;
@@ -550,7 +579,8 @@ function renderResults(anim){const R=S.res,lbs=R.unit==='lbs',cv=x=>lbs?Math.rou
   $('proj').innerHTML=rows;
   renderDiets();
   if(anim){countUp($('tdee'),R.tdee);countUp($('bmi'),+R.bmi.toFixed(1),1);$('pin').style.left='0%';setTimeout(()=>$('pin').style.left=Math.max(0,Math.min(100,pos))+'%',120)}
-  else{$('tdee').textContent=fmt(R.tdee);$('bmi').textContent=fmt(+R.bmi.toFixed(1),1)}
+  else{$('tdee').textContent=fmt(R.tdee);$('bmi').textContent=fmt(+R.bmi.toFixed(1),1);$('pin').style.left=Math.max(0,Math.min(100,pos))+'%'}
+  if(!fromQuick)syncAdjust();
 }
 
 function renderDiets(){if(!S.res)return;const cal=S.res.tdee+S.goal,unit=S.lang==='id'?'kal':'cal';
@@ -562,6 +592,11 @@ function renderDiets(){if(!S.res)return;const cal=S.res.tdee+S.goal,unit=S.lang=
     <div class="label">${T('benefits')}</div><ul>${ben.map(x=>`<li>${x}</li>`).join('')}</ul></div>`}).join('');
   bindTilt($('diets'));
 }
+function pressKey(name,v){const g=document.querySelector(`.keys[data-name=${name}]`),b=g.querySelector(`[data-v="${v}"]`);if(!b.classList.contains('on'))b.click()}
+function unitsForLang(){const id=S.lang==='id';
+  if(!$('ft').value&&!$('in').value&&!$('cm').value)pressKey('hUnit',id?'cm':'ft');
+  if(!$('w').value)pressKey('wUnit',id?'kg':'lbs');}
+unitsForLang();
 applyLang();
 </script>
 </body>
