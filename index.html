@@ -90,7 +90,7 @@ select{appearance:none;cursor:pointer;font-family:Archivo;font-weight:600;backgr
 .duo{display:grid;grid-template-columns:1.25fr 1fr;gap:34px}
 .tdee{background:var(--hot);overflow:hidden}
 .tdee .label{color:var(--ink)}
-.mega{font-weight:900;font-variation-settings:"wdth" 125;font-size:clamp(84px,13vw,170px);line-height:.85;letter-spacing:-.06em;margin:20px 0 8px;color:var(--card);
+.mega{font-weight:900;font-variation-settings:"wdth" 125;font-size:clamp(84px,13vw,170px);line-height:.85;letter-spacing:-.06em;margin:20px 0 26px;color:var(--card);
   text-shadow:1px 1px 0 var(--ink),2px 2px 0 var(--ink),3px 3px 0 var(--ink),4px 4px 0 var(--ink),5px 5px 0 var(--ink),6px 6px 0 var(--ink),7px 7px 0 var(--ink),8px 8px 0 var(--ink),9px 9px 0 var(--ink),10px 10px 0 var(--ink)}
 .unit{font-family:"IBM Plex Mono";font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.1em}
 .tdee p{max-width:420px;margin-top:22px;font-size:15px;color:#2a1a10}
@@ -194,6 +194,18 @@ footer{padding:40px 0 50px;display:flex;justify-content:space-between;font-famil
 .rise{opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s cubic-bezier(.2,.8,.2,1)}
 .rise.in{opacity:1;transform:none}
 
+
+.tdee>*:not(.ring){position:relative;z-index:1}
+.tdee .ring{right:-95px;bottom:-95px;width:210px;height:210px;border-width:26px;opacity:.55}
+.tdee p{max-width:360px}
+.navwrap{display:flex;align-items:center;gap:26px}
+.lang{position:relative;display:grid;grid-template-columns:1fr 1fr;width:104px;height:42px;padding:0;border:2.5px solid var(--ink);border-radius:999px;background:var(--paper2);cursor:pointer;box-shadow:0 5px 0 var(--ink);transition:transform .1s,box-shadow .1s;font:inherit}
+.lang:active{transform:translateY(5px);box-shadow:0 0 0 var(--ink)}
+.lang .knob{position:absolute;top:3px;left:3px;width:calc(50% - 3px);height:calc(100% - 6px);border-radius:999px;background:var(--hot);border:2px solid var(--ink);transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
+.lang.id .knob{transform:translateX(100%)}
+.lang .opt{position:relative;z-index:1;display:grid;place-items:center;font-family:"IBM Plex Mono";font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--mute);transition:color .2s}
+.lang:not(.id) .opt[data-l=en],.lang.id .opt[data-l=id]{color:var(--ink)}
+@media(max-width:640px){.tdee .ring{display:none}}
 @media(max-width:960px){
   .hero{grid-template-columns:1fr;min-height:auto;padding-top:40px}
   .stage{height:420px;order:-1}
@@ -219,63 +231,64 @@ footer{padding:40px 0 50px;display:flex;justify-content:space-between;font-famil
 <div class="wrap">
   <nav>
     <div class="brand">caloriecalc<b>.</b></div>
-    <div class="navr"><a href="#calc">Calculator</a><a href="#diets-sec">Diets</a><a href="#tools">Tools</a></div>
+    <div class="navwrap"><div class="navr"><a href="#calc" data-i="navCalc">Calculator</a><a href="#diets-sec" data-i="navDiets">Diets</a></div>
+    <button class="lang" id="lang" type="button" aria-label="Switch language"><span class="knob"></span><span class="opt" data-l="en">EN</span><span class="opt" data-l="id">ID</span></button></div>
   </nav>
 
   <section class="hero">
     <div>
       <div class="eyebrow">BMI · TDEE · Macros</div>
-      <h1>Every <span class="o">bite</span><br>counts. <span class="out">Know</span><br>the math.</h1>
-      <p class="lead">Calculate your Body Mass Index (BMI) and Total Daily Energy Expenditure (TDEE) to understand your health metrics and visualize how different calorie intakes affect your weight over time.</p>
-      <a class="btn" href="#calc">Start calculating <span class="arr"></span></a>
+      <h1 data-i="h1">Every <span class="o">bite</span><br>counts. <span class="out">Know</span><br>the math.</h1>
+      <p class="lead" data-i="lead">Calculate your Body Mass Index (BMI) and Total Daily Energy Expenditure (TDEE) to understand your health metrics and visualize how different calorie intakes affect your weight over time.</p>
+      <a class="btn" href="#calc"><span data-i="start">Start calculating</span> <span class="arr"></span></a>
     </div>
     <div class="stage">
       <canvas id="donut" aria-label="3D donut, drag to spin"></canvas>
       <div class="sticker s1">≈ 250 kcal / ring</div>
-      <div class="sticker s2">drag to spin</div>
+      <div class="sticker s2" data-i="drag">drag to spin</div>
       <div class="sticker s3">Mifflin-St Jeor</div>
     </div>
   </section>
 
   <!-- FORM -->
   <section id="calc" class="slab rise">
-    <span class="num">01 / Inputs</span>
-    <h2>Your details</h2>
+    <span class="num" data-i="n1">01 / Inputs</span>
+    <h2 data-i="details">Your details</h2>
     <form id="f" class="formgrid" novalidate>
       <div>
-        <label class="fl">Gender</label>
-        <div class="keys" data-name="gender"><button type="button" class="key on" data-v="male">Male</button><button type="button" class="key" data-v="female">Female</button></div>
+        <label class="fl" data-i="gender">Gender</label>
+        <div class="keys" data-name="gender"><button type="button" class="key on" data-v="male" data-i="male">Male</button><button type="button" class="key" data-v="female" data-i="female">Female</button></div>
       </div>
       <div>
-        <label class="fl" for="age">Age</label>
-        <input id="age" type="number" min="15" max="100" placeholder="Enter your age">
-        <div class="err" id="eAge">Enter an age between 15 and 100.</div>
+        <label class="fl" for="age" data-i="age">Age</label>
+        <input id="age" type="number" min="15" max="100" placeholder="Enter your age" data-ph="agePh">
+        <div class="err" id="eAge" data-i="eAge">Enter an age between 15 and 100.</div>
       </div>
       <div>
-        <label class="fl">Height</label>
-        <div class="keys" data-name="hUnit"><button type="button" class="key on" data-v="ft">Feet/Inches</button><button type="button" class="key" data-v="cm">Centimeters</button></div>
-        <div class="row2" id="hFt"><input id="ft" type="number" placeholder="Feet"><input id="in" type="number" placeholder="Inches"></div>
-        <input id="cm" class="hidden" type="number" placeholder="Enter height in cm">
-        <div class="err" id="eH">Enter a valid height.</div>
+        <label class="fl" data-i="height">Height</label>
+        <div class="keys" data-name="hUnit"><button type="button" class="key on" data-v="ft" data-i="ftin">Feet/Inches</button><button type="button" class="key" data-v="cm" data-i="cmL">Centimeters</button></div>
+        <div class="row2" id="hFt"><input id="ft" type="number" placeholder="Feet" data-ph="feet"><input id="in" type="number" placeholder="Inches" data-ph="inches"></div>
+        <input id="cm" class="hidden" type="number" placeholder="Enter height in cm" data-ph="cmPh">
+        <div class="err" id="eH" data-i="eH">Enter a valid height.</div>
       </div>
       <div>
-        <label class="fl">Weight</label>
-        <div class="keys" data-name="wUnit"><button type="button" class="key on" data-v="lbs">Pounds</button><button type="button" class="key" data-v="kg">Kilograms</button></div>
+        <label class="fl" data-i="weight">Weight</label>
+        <div class="keys" data-name="wUnit"><button type="button" class="key on" data-v="lbs" data-i="lbsL">Pounds</button><button type="button" class="key" data-v="kg" data-i="kgL">Kilograms</button></div>
         <input id="w" type="number" placeholder="Enter weight in lbs">
-        <div class="err" id="eW">Enter a valid weight.</div>
+        <div class="err" id="eW" data-i="eW">Enter a valid weight.</div>
       </div>
       <div class="full">
-        <label class="fl" for="act">Activity Level</label>
+        <label class="fl" for="act" data-i="act">Activity Level</label>
         <select id="act">
-          <option value="1.2">Sedentary (little to no exercise)</option>
-          <option value="1.375">Lightly Active (light exercise 1–3 days/week)</option>
-          <option value="1.55" selected>Moderately Active (moderate exercise 3–5 days/week)</option>
-          <option value="1.725">Very Active (intense exercise 6–7 days/week)</option>
-          <option value="1.9">Extra Active (very intense exercise, sports job, etc.)</option>
+          <option value="1.2" data-i="a1">Sedentary (little to no exercise)</option>
+          <option value="1.375" data-i="a2">Lightly Active (light exercise 1–3 days/week)</option>
+          <option value="1.55" selected data-i="a3">Moderately Active (moderate exercise 3–5 days/week)</option>
+          <option value="1.725" data-i="a4">Very Active (intense exercise 6–7 days/week)</option>
+          <option value="1.9" data-i="a5">Extra Active (very intense exercise, sports job, etc.)</option>
         </select>
-        <div class="hint">Choose the option that best describes your typical weekly activity.</div>
+        <div class="hint" data-i="actHint">Choose the option that best describes your typical weekly activity.</div>
       </div>
-      <div class="full"><button class="btn" type="submit">Calculate TDEE <span class="arr"></span></button></div>
+      <div class="full"><button class="btn" type="submit"><span data-i="calcBtn">Calculate TDEE</span> <span class="arr"></span></button></div>
     </form>
   </section>
 
@@ -286,70 +299,48 @@ footer{padding:40px 0 50px;display:flex;justify-content:space-between;font-famil
     <div class="duo">
       <div class="slab tdee tilt">
         <div class="ring"></div>
-        <div class="label">Your Estimated TDEE</div>
+        <div class="label" data-i="tdeeL">Your Estimated TDEE</div>
         <div class="mega" id="tdee">0</div>
-        <div class="unit">calories / day</div>
-        <p>This is the estimated number of calories you burn daily based on your inputs. Consuming this amount should maintain your current weight.</p>
+        <div class="unit" data-i="perDay">calories / day</div>
+        <p data-i="tdeeP">This is the estimated number of calories you burn daily based on your inputs. Consuming this amount should maintain your current weight.</p>
       </div>
       <div class="slab tilt">
-        <div class="label">Your BMI</div>
+        <div class="label" data-i="bmiL">Your BMI</div>
         <div class="bmiN" id="bmi">0</div>
         <span class="tagc" id="bmiCat"></span>
         <div class="track"><span style="width:18.5%;background:var(--sky)"></span><span style="width:31.5%;background:var(--sage)"></span><span style="width:20%;background:var(--hot2)"></span><span style="width:30%;background:var(--rose)"></span><div class="pin" id="pin" style="left:0"></div></div>
         <div class="scale"><span>15</span><span>18.5</span><span>25</span><span>30</span><span>40</span></div>
-        <div class="range">Healthy Weight Range<b id="range"></b></div>
+        <div class="range"><span data-i="range">Healthy Weight Range</span><b id="range"></b></div>
       </div>
     </div>
 
-    <div class="secthead"><div><span class="num">02 / Projection</span><h2>Weight Loss<br>Projections</h2></div><p>The table below shows potential weight loss based on different calorie intake levels.</p></div>
+    <div class="secthead"><div><span class="num" data-i="n2">02 / Projection</span><h2 data-i="projH">Weight Loss<br>Projections</h2></div><p data-i="projP">The table below shows potential weight loss based on different calorie intake levels.</p></div>
     <div class="slab">
       <div class="proj" id="proj"></div>
-      <div class="note">Note: A safe and sustainable rate of weight loss is generally 1-2 pounds (0.5-1 kg) per week. Excessive calorie restriction is not recommended.</div>
+      <div class="note" data-i="safe">Note: A safe and sustainable rate of weight loss is generally 1-2 pounds (0.5-1 kg) per week. Excessive calorie restriction is not recommended.</div>
     </div>
 
     <div class="slab cta rise">
       <div>
-        <span class="num">03 / Coaching</span>
-        <h2>Need personalized guidance?</h2>
-        <p>Numbers and calculations are helpful, but nothing beats personalized coaching. Our certified fitness coaches will create a custom plan tailored to your unique body, goals, and lifestyle.</p>
-        <ul><li>Personalized nutrition and workout plans</li><li>Regular progress tracking and adjustments</li><li>Accountability and motivation support</li></ul>
+        <span class="num" data-i="n3">03 / Coaching</span>
+        <h2 data-i="coachH">Need personalized guidance?</h2>
+        <p data-i="coachP">Numbers and calculations are helpful, but nothing beats personalized coaching. Our certified fitness coaches will create a custom plan tailored to your unique body, goals, and lifestyle.</p>
+        <ul data-i="coachL"><li>Personalized nutrition and workout plans</li><li>Regular progress tracking and adjustments</li><li>Accountability and motivation support</li></ul>
       </div>
       
     </div>
 
-    <div class="secthead" id="diets-sec"><div><span class="num">04 / Macros</span><h2>Recommended Macronutrients<br>by Diet</h2></div>
-      <div class="modes" id="goal"><button type="button" class="key on" data-v="0">Maintenance</button><button type="button" class="key" data-v="-500">Cutting (-500 cal)</button><button type="button" class="key" data-v="500">Bulking (+500 cal)</button></div>
+    <div class="secthead" id="diets-sec"><div><span class="num" data-i="n4">04 / Macros</span><h2 data-i="dietH">Recommended Macronutrients<br>by Diet</h2></div>
+      <div class="modes" id="goal"><button type="button" class="key on" data-v="0" data-i="g0">Maintenance</button><button type="button" class="key" data-v="-500" data-i="g1">Cutting (-500 cal)</button><button type="button" class="key" data-v="500" data-i="g2">Bulking (+500 cal)</button></div>
     </div>
     <div class="diets" id="diets"></div>
-    <div class="more"><p>Note: Protein and carbs contain 4 calories per gram, while fat contains 9 calories per gram.</p></div>
+    <div class="more"><p data-i="macroNote">Note: Protein and carbs contain 4 calories per gram, while fat contains 9 calories per gram.</p></div>
 
-    <div class="secthead" id="tools"><div><span class="num">05 / Gear</span><h2>Recommended Tools for<br>Your Fitness Journey</h2></div><p>These carefully selected products can help you achieve your fitness and nutrition goals more effectively.</p></div>
-    <div class="prods">
-      <div class="slab prod tilt">
-        <div class="vis" style="background:var(--hot2)"><div class="tags"><span class="t2">Best Seller</span><span class="t2 off">30% OFF</span></div><div class="scale1"></div></div>
-        <div class="body"><h3>Etekcity Food Scale, Digital Kitchen Scale Weight Grams and oz</h3>
-          <div class="price"><b>$13.99</b><s>$19.99</s></div><div class="rate">4.7 / 5 · 32,850 reviews</div>
-          <p>Accurately track your food intake with this precision digital scale. A food scale is essential for portion control and ensuring you're meeting your macronutrient targets.</p></div>
-      </div>
-      <div class="slab prod tilt">
-        <div class="vis" style="background:#b9d3c4"><div class="tags"><span class="t2">Top Rated</span><span class="t2 off">15% OFF</span></div><div class="scale2"></div></div>
-        <div class="body"><h3>Etekcity Smart Rechargeable Scale for Body Weight</h3>
-          <div class="price"><b>$42.49</b><s>$49.99</s></div><div class="rate">4.5 / 5 · 13,006 reviews</div>
-          <p>Track your fitness progress with this smart body scale. Measures 13 metrics including BMI, body fat, muscle mass and more, and connects to free apps via Bluetooth.</p></div>
-      </div>
-      <div class="slab prod tilt">
-        <div class="vis" style="background:#f3c6c0"><div class="tags"><span class="t2">Popular</span><span class="t2 off">25% OFF</span></div><div class="jar"></div></div>
-        <div class="body"><h3>Goli Apple Cider Vinegar Gummy Vitamins - 60 Count</h3>
-          <div class="price"><b>$14.98</b><s>$19.99</s></div><div class="rate">4.4 / 5 · 195,000 reviews</div>
-          <p>Apple-flavored gummies with the benefits of apple cider vinegar without the harsh taste, plus added B12. Vegan, gluten-free, and made with natural ingredients.</p></div>
-      </div>
-    </div>
-    <p class="disc">As an Amazon Associate I earn from qualifying purchases. This means that if you click on a link and make a purchase, I may receive a small commission at no extra cost to you. All recommendations are based on products I believe will help you on your fitness journey.</p>
   </section>
 </div>
 
 <div class="marq"><div id="mq"></div></div>
-<div class="wrap"><footer><span>© caloriecalc.org</span><span>Estimates only. Not medical advice.</span></footer></div>
+<div class="wrap"><footer><span>© caloriecalc.org</span><span data-i="foot">Estimates only. Not medical advice.</span></footer></div>
 
 <script>
 /* ---------- 3D DONUT (self-contained software renderer) ---------- */
@@ -432,15 +423,79 @@ footer{padding:40px 0 50px;display:flex;justify-content:space-between;font-famil
 })();
 
 /* ---------- UI ---------- */
-const S={gender:'male',hUnit:'ft',wUnit:'lbs',goal:0,res:null};
+const S={gender:'male',hUnit:'ft',wUnit:'lbs',goal:0,res:null,lang:'en'};
 const $=id=>document.getElementById(id);
-document.getElementById('mq').innerHTML=Array(2).fill('<span>Calories in</span><em>Calories out</em><span>BMI</span><em>TDEE</em><span>Protein</span><em>Carbs</em><span>Fat</span><em>Repeat</em>').join('');
+
+/* ---------- LANGUAGE ---------- */
+const I18N={
+en:{navCalc:'Calculator',navDiets:'Diets',h1:'Every <span class="o">bite</span><br>counts. <span class="out">Know</span><br>the math.',
+lead:'Calculate your Body Mass Index (BMI) and Total Daily Energy Expenditure (TDEE) to understand your health metrics and visualize how different calorie intakes affect your weight over time.',
+start:'Start calculating',drag:'drag to spin',n1:'01 / Inputs',details:'Your details',gender:'Gender',male:'Male',female:'Female',age:'Age',agePh:'Enter your age',
+eAge:'Enter an age between 15 and 100.',height:'Height',ftin:'Feet/Inches',cmL:'Centimeters',feet:'Feet',inches:'Inches',cmPh:'Enter height in cm',eH:'Enter a valid height.',
+weight:'Weight',lbsL:'Pounds',kgL:'Kilograms',wPh:'Enter weight in ',eW:'Enter a valid weight.',act:'Activity Level',
+a1:'Sedentary (little to no exercise)',a2:'Lightly Active (light exercise 1–3 days/week)',a3:'Moderately Active (moderate exercise 3–5 days/week)',a4:'Very Active (intense exercise 6–7 days/week)',a5:'Extra Active (very intense exercise, sports job, etc.)',
+actHint:'Choose the option that best describes your typical weekly activity.',calcBtn:'Calculate TDEE',
+tdeeL:'Your Estimated TDEE',perDay:'calories / day',tdeeP:'This is the estimated number of calories you burn daily based on your inputs. Consuming this amount should maintain your current weight.',
+bmiL:'Your BMI',range:'Healthy Weight Range',n2:'02 / Projection',projH:'Weight Loss<br>Projections',projP:'The table below shows potential weight loss based on different calorie intake levels.',
+safe:'Note: A safe and sustainable rate of weight loss is generally 1-2 pounds (0.5-1 kg) per week. Excessive calorie restriction is not recommended.',
+n3:'03 / Coaching',coachH:'Need personalized guidance?',coachP:'Numbers and calculations are helpful, but nothing beats personalized coaching. Our certified fitness coaches will create a custom plan tailored to your unique body, goals, and lifestyle.',
+coachL:'<li>Personalized nutrition and workout plans</li><li>Regular progress tracking and adjustments</li><li>Accountability and motivation support</li>',
+n4:'04 / Macros',dietH:'Recommended Macronutrients<br>by Diet',g0:'Maintenance',g1:'Cutting (-500 cal)',g2:'Bulking (+500 cal)',
+macroNote:'Note: Protein and carbs contain 4 calories per gram, while fat contains 9 calories per gram.',foot:'Estimates only. Not medical advice.',
+sGender:'Gender',sAge:'Age',years:' years',sHeight:'Height',sWeight:'Weight',sAct:'Activity',edit:'Edit',
+cats:['Underweight','Normal weight','Overweight','Obese'],thCal:'Daily Calories',thDay:'Daily Deficit',thWk:'Weekly Deficit',thChg:'Weekly',perDayShort:'kcal/day',
+target:'Daily Target',benefits:'Key Benefits',macros:['Protein','Carbs','Fat'],
+marq:['Calories in','Calories out','BMI','TDEE','Protein','Carbs','Fat','Repeat'],
+diets:[['Ketogenic Diet','Very low-carb, high-fat diet that puts your body into ketosis',['Rapid weight loss','Reduced hunger and appetite','Improved insulin sensitivity','May benefit certain neurological conditions']],
+['Intermittent Fasting','Eating pattern that cycles between periods of fasting and eating',['Weight loss and fat reduction','Improved metabolic health','Cellular repair processes','Simplifies healthy lifestyle']],
+['Mediterranean Diet','Based on traditional foods from Mediterranean countries',['Heart health benefits','Reduced risk of chronic diseases','Improved cognitive function','Longevity and quality of life']],
+['Paleo Diet','Based on foods similar to what might have been eaten during the Paleolithic era',['Weight loss','Improved blood lipids','Reduced inflammation','Better blood sugar control']],
+['Vegan/Plant-Based','Excludes all animal products and focuses on plant foods',['Lower risk of heart disease','Weight management','Reduced risk of certain cancers','Environmental sustainability']],
+['Weight Watchers (WW)','Points-based system for tracking food intake',['Flexible approach to eating','No foods are off-limits','Community support','Sustainable long-term results']]]},
+id:{navCalc:'Kalkulator',navDiets:'Diet',h1:'Setiap <span class="o">gigitan</span><br>dihitung. <span class="out">Pahami</span><br>angkanya.',
+lead:'Hitung Indeks Massa Tubuh (BMI) dan Total Daily Energy Expenditure (TDEE) untuk memahami kondisi kesehatanmu, dan lihat bagaimana asupan kalori yang berbeda memengaruhi berat badanmu dari waktu ke waktu.',
+start:'Mulai hitung',drag:'geser untuk memutar',n1:'01 / Data',details:'Data dirimu',gender:'Jenis kelamin',male:'Pria',female:'Wanita',age:'Usia',agePh:'Masukkan usiamu',
+eAge:'Masukkan usia antara 15 dan 100.',height:'Tinggi badan',ftin:'Kaki/Inci',cmL:'Sentimeter',feet:'Kaki',inches:'Inci',cmPh:'Masukkan tinggi dalam cm',eH:'Masukkan tinggi badan yang valid.',
+weight:'Berat badan',lbsL:'Pon',kgL:'Kilogram',wPh:'Masukkan berat dalam ',eW:'Masukkan berat badan yang valid.',act:'Tingkat aktivitas',
+a1:'Jarang bergerak (hampir tidak olahraga)',a2:'Sedikit aktif (olahraga ringan 1–3 hari/minggu)',a3:'Cukup aktif (olahraga sedang 3–5 hari/minggu)',a4:'Sangat aktif (olahraga berat 6–7 hari/minggu)',a5:'Ekstra aktif (olahraga sangat berat, pekerjaan fisik, dll.)',
+actHint:'Pilih yang paling menggambarkan aktivitas mingguanmu.',calcBtn:'Hitung TDEE',
+tdeeL:'Perkiraan TDEE-mu',perDay:'kalori / hari',tdeeP:'Ini perkiraan jumlah kalori yang kamu bakar setiap hari berdasarkan datamu. Mengonsumsi kalori sebanyak ini seharusnya menjaga berat badanmu tetap stabil.',
+bmiL:'BMI-mu',range:'Rentang berat badan sehat',n2:'02 / Proyeksi',projH:'Proyeksi<br>Penurunan Berat',projP:'Tabel di bawah menunjukkan potensi perubahan berat badan berdasarkan jumlah asupan kalori yang berbeda.',
+safe:'Catatan: Laju penurunan berat yang aman dan berkelanjutan umumnya 0,5–1 kg (1–2 pon) per minggu. Membatasi kalori secara berlebihan tidak disarankan.',
+n3:'03 / Pendampingan',coachH:'Butuh panduan personal?',coachP:'Angka dan perhitungan memang membantu, tapi pendampingan personal tetap tak tergantikan. Pelatih kebugaran bersertifikat kami akan menyusun rencana khusus sesuai tubuh, target, dan gaya hidupmu.',
+coachL:'<li>Rencana nutrisi dan latihan yang dipersonalisasi</li><li>Pemantauan progres dan penyesuaian rutin</li><li>Dukungan motivasi dan akuntabilitas</li>',
+n4:'04 / Makro',dietH:'Rekomendasi Makronutrien<br>per Diet',g0:'Jaga berat',g1:'Cutting (-500 kal)',g2:'Bulking (+500 kal)',
+macroNote:'Catatan: Protein dan karbohidrat mengandung 4 kalori per gram, sedangkan lemak mengandung 9 kalori per gram.',foot:'Hanya perkiraan. Bukan saran medis.',
+sGender:'Jenis kelamin',sAge:'Usia',years:' tahun',sHeight:'Tinggi',sWeight:'Berat',sAct:'Aktivitas',edit:'Ubah',
+cats:['Berat kurang','Normal','Berat berlebih','Obesitas'],thCal:'Kalori harian',thDay:'Defisit harian',thWk:'Defisit mingguan',thChg:'Per minggu',perDayShort:'kkal/hari',
+target:'Target harian',benefits:'Manfaat utama',macros:['Protein','Karbo','Lemak'],
+marq:['Kalori masuk','Kalori keluar','BMI','TDEE','Protein','Karbo','Lemak','Ulangi'],
+diets:[['Diet Ketogenik','Diet sangat rendah karbo dan tinggi lemak yang membuat tubuh masuk ke kondisi ketosis',['Penurunan berat yang cepat','Rasa lapar berkurang','Sensitivitas insulin membaik','Bermanfaat untuk kondisi saraf tertentu']],
+['Intermittent Fasting','Pola makan yang bergantian antara periode puasa dan makan',['Penurunan berat dan lemak','Kesehatan metabolik membaik','Proses perbaikan sel','Gaya hidup sehat jadi lebih simpel']],
+['Diet Mediterania','Berbasis makanan tradisional negara-negara Mediterania',['Baik untuk kesehatan jantung','Risiko penyakit kronis menurun','Fungsi kognitif membaik','Umur panjang dan kualitas hidup']],
+['Diet Paleo','Berbasis makanan yang mirip dengan pola makan zaman Paleolitikum',['Penurunan berat badan','Kadar lemak darah membaik','Peradangan berkurang','Gula darah lebih terkontrol']],
+['Vegan/Nabati','Tanpa produk hewani dan berfokus pada makanan nabati',['Risiko penyakit jantung lebih rendah','Membantu mengelola berat badan','Risiko kanker tertentu menurun','Ramah lingkungan']],
+['Weight Watchers (WW)','Sistem berbasis poin untuk mencatat asupan makanan',['Pola makan yang fleksibel','Tidak ada makanan yang dilarang','Dukungan komunitas','Hasil jangka panjang yang berkelanjutan']]]}
+};
+const T=k=>I18N[S.lang][k];
+const fmt=(n,d=0)=>n.toLocaleString(S.lang==='id'?'id-ID':'en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+function applyLang(){
+  document.documentElement.lang=S.lang;
+  document.querySelectorAll('[data-i]').forEach(el=>el.innerHTML=T(el.dataset.i));
+  document.querySelectorAll('[data-ph]').forEach(el=>el.placeholder=T(el.dataset.ph));
+  $('w').placeholder=T('wPh')+S.wUnit;
+  $('lang').classList.toggle('id',S.lang==='id');
+  $('mq').innerHTML=Array(2).fill(T('marq').map((w,i)=>i%2?`<em>${w}</em>`:`<span>${w}</span>`).join('')).join('');
+  if(S.res)renderResults(false);
+}
+$('lang').addEventListener('click',()=>{S.lang=S.lang==='en'?'id':'en';try{localStorage.setItem('cc-lang',S.lang)}catch(_){}applyLang()});
+try{const l=localStorage.getItem('cc-lang');if(l==='id'||l==='en')S.lang=l;else if((navigator.language||'').startsWith('id'))S.lang='id'}catch(_){}
 
 document.querySelectorAll('.keys[data-name]').forEach(g=>g.addEventListener('click',e=>{
   const b=e.target.closest('.key');if(!b)return;g.querySelectorAll('.key').forEach(x=>x.classList.toggle('on',x===b));
   S[g.dataset.name]=b.dataset.v;
   if(g.dataset.name==='hUnit'){$('hFt').classList.toggle('hidden',b.dataset.v!=='ft');$('cm').classList.toggle('hidden',b.dataset.v!=='cm')}
-  if(g.dataset.name==='wUnit')$('w').placeholder='Enter weight in '+b.dataset.v;
+  if(g.dataset.name==='wUnit')$('w').placeholder=T('wPh')+b.dataset.v;
 }));
 $('goal').addEventListener('click',e=>{const b=e.target.closest('.key');if(!b)return;
   $('goal').querySelectorAll('.key').forEach(x=>x.classList.toggle('on',x===b));S.goal=+b.dataset.v;renderDiets()});
@@ -458,17 +513,10 @@ bindTilt(document);
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.rise').forEach(el=>io.observe(el));
 
-const DIETS=[
- ['Ketogenic Diet','Very low-carb, high-fat diet that puts your body into ketosis',[20,5,75],['Rapid weight loss','Reduced hunger and appetite','Improved insulin sensitivity','May benefit certain neurological conditions']],
- ['Intermittent Fasting','Eating pattern that cycles between periods of fasting and eating',[25,45,30],['Weight loss and fat reduction','Improved metabolic health','Cellular repair processes','Simplifies healthy lifestyle']],
- ['Mediterranean Diet','Based on traditional foods from Mediterranean countries',[20,50,30],['Heart health benefits','Reduced risk of chronic diseases','Improved cognitive function','Longevity and quality of life']],
- ['Paleo Diet','Based on foods similar to what might have been eaten during the Paleolithic era',[30,25,45],['Weight loss','Improved blood lipids','Reduced inflammation','Better blood sugar control']],
- ['Vegan/Plant-Based','Excludes all animal products and focuses on plant foods',[15,60,25],['Lower risk of heart disease','Weight management','Reduced risk of certain cancers','Environmental sustainability']],
- ['Weight Watchers (WW)','Points-based system for tracking food intake',[25,50,25],['Flexible approach to eating','No foods are off-limits','Community support','Sustainable long-term results']]
-];
+const PCT=[[20,5,75],[25,45,30],[20,50,30],[30,25,45],[15,60,25],[25,50,25]];
 const MC=['var(--hot)','var(--hot2)','var(--sage)'];
 
-function countUp(el,to,dec=0){const t0=performance.now(),d=1100;(function f(n){const p=Math.min(1,(n-t0)/d),e=1-Math.pow(1-p,4);el.textContent=(to*e).toLocaleString(undefined,{minimumFractionDigits:dec,maximumFractionDigits:dec});if(p<1)requestAnimationFrame(f)})(t0)}
+function countUp(el,to,dec=0){const t0=performance.now(),d=1100;(function f(n){const p=Math.min(1,(n-t0)/d),e=1-Math.pow(1-p,4);el.textContent=fmt(to*e,dec);if(p<1)requestAnimationFrame(f)})(t0)}
 
 $('f').addEventListener('submit',e=>{e.preventDefault();
   let ok=true;const show=(id,bad)=>{$(id).style.display=bad?'block':'none';if(bad)ok=false};
@@ -479,40 +527,42 @@ $('f').addEventListener('submit',e=>{e.preventDefault();
   const wv=+$('w').value,kg=S.wUnit==='lbs'?wv*0.45359237:wv;show('eW',!(kg>=25&&kg<=350));
   if(!ok)return;
   const bmr=10*kg+6.25*cm-5*age+(S.gender==='male'?5:-161);
-  const act=$('act'),tdee=Math.round(bmr*+act.value),m=cm/100,bmi=kg/(m*m);
-  S.res={tdee};
-  $('summary').innerHTML=[['Gender',S.gender==='male'?'Male':'Female'],['Age',age+' years'],['Height',hTxt],['Weight',wv+' '+S.wUnit],['Activity',act.options[act.selectedIndex].text.split(' (')[0]]]
-    .map(([k,v])=>`<span class="chip">${k}: <b>${v}</b></span>`).join('')+`<button class="btn light sm" id="edit" type="button">Edit</button>`;
-  $('edit').onclick=()=>{$('results').classList.add('hidden');$('calc').classList.remove('hidden');$('calc').scrollIntoView()};
-
-  const lbs=S.wUnit==='lbs',cv=x=>lbs?Math.round(x/0.45359237):Math.round(x);
-  const cat=bmi<18.5?['Underweight','var(--sky)']:bmi<25?['Normal weight','var(--sage)']:bmi<30?['Overweight','var(--hot2)']:['Obese','var(--rose)'];
-  $('bmiCat').textContent=cat[0];$('bmiCat').style.background=cat[1];$('bmiCat').style.color=cat[0]==='Overweight'?'var(--ink)':'#fff';
-  $('range').textContent=`${cv(18.5*m*m)} - ${cv(24.9*m*m)} ${S.wUnit}`;
-  const pos=bmi<18.5?(bmi-15)/3.5*18.5:bmi<25?18.5+(bmi-18.5)/6.5*31.5:bmi<30?50+(bmi-25)/5*20:70+(bmi-30)/10*30;
-
-  let rows=`<div class="prow head"><span>Daily Calories</span><span>Daily Deficit</span><span class="wk">Weekly Deficit</span><span>Weekly (${S.wUnit})</span></div>`;
-  for(let d=-1250;d<=1250;d+=250){const wk=d*7,chg=lbs?wk/3500:wk/7700,s=d>0?'+':'',cl=d<0?'minus':d>0?'plus':'',w=Math.abs(d)/1250*50;
-    const blk=d===0?'':`<div class="blk" style="${d<0?'right':'left'}:50%;width:${w}%;background:${d<0?'var(--sage)':'var(--hot)'}"></div>`;
-    rows+=`<div class="prow ${d===0?'cur':''}"><span class="kcal">${(tdee+d).toLocaleString()}</span><div class="lane" title="${s}${d} kcal/day">${blk}</div><span class="wk ${cl}">${s}${wk.toLocaleString()}</span><span class="${cl}">${s}${chg.toFixed(2)}</span></div>`}
-  $('proj').innerHTML=rows;
-  renderDiets();
+  const ai=$('act').selectedIndex,tdee=Math.round(bmr*+$('act').value),m=cm/100,bmi=kg/(m*m);
+  S.res={tdee,bmi,m,age,hTxt,wv,unit:S.wUnit,gender:S.gender,ai};
   $('calc').classList.add('hidden');$('results').classList.remove('hidden');
   $('results').scrollIntoView();
-  countUp($('tdee'),tdee);countUp($('bmi'),+bmi.toFixed(1),1);
-  $('pin').style.left='0%';setTimeout(()=>$('pin').style.left=Math.max(0,Math.min(100,pos))+'%',120);
+  renderResults(true);
   document.querySelectorAll('#results .rise').forEach(el=>io.observe(el));
 });
 
-function renderDiets(){if(!S.res)return;const cal=S.res.tdee+S.goal;
-  $('diets').innerHTML=DIETS.map(([n,d,pc,ben],i)=>{const g=[Math.round(cal*pc[0]/400),Math.round(cal*pc[1]/400),Math.round(cal*pc[2]/900)];
+function renderResults(anim){const R=S.res,lbs=R.unit==='lbs',cv=x=>lbs?Math.round(x/0.45359237):Math.round(x);
+  $('summary').innerHTML=[[T('sGender'),T(R.gender)],[T('sAge'),R.age+T('years')],[T('sHeight'),R.hTxt],[T('sWeight'),R.wv+' '+R.unit],[T('sAct'),T('a'+(R.ai+1)).split(' (')[0]]]
+    .map(([k,v])=>`<span class="chip">${k}: <b>${v}</b></span>`).join('')+`<button class="btn light sm" id="edit" type="button">${T('edit')}</button>`;
+  $('edit').onclick=()=>{$('results').classList.add('hidden');$('calc').classList.remove('hidden');$('calc').scrollIntoView()};
+  const ci=R.bmi<18.5?0:R.bmi<25?1:R.bmi<30?2:3;
+  $('bmiCat').textContent=T('cats')[ci];$('bmiCat').style.background=['var(--sky)','var(--sage)','var(--hot2)','var(--rose)'][ci];$('bmiCat').style.color=ci===2?'var(--ink)':'#fff';
+  $('range').textContent=`${fmt(cv(18.5*R.m*R.m))} - ${fmt(cv(24.9*R.m*R.m))} ${R.unit}`;
+  const b=R.bmi,pos=b<18.5?(b-15)/3.5*18.5:b<25?18.5+(b-18.5)/6.5*31.5:b<30?50+(b-25)/5*20:70+(b-30)/10*30;
+  let rows=`<div class="prow head"><span>${T('thCal')}</span><span>${T('thDay')}</span><span class="wk">${T('thWk')}</span><span>${T('thChg')} (${R.unit})</span></div>`;
+  for(let d=-1250;d<=1250;d+=250){const wk=d*7,chg=lbs?wk/3500:wk/7700,s=d>0?'+':'',cl=d<0?'minus':d>0?'plus':'',w=Math.abs(d)/1250*50;
+    const blk=d===0?'':`<div class="blk" style="${d<0?'right':'left'}:50%;width:${w}%;background:${d<0?'var(--sage)':'var(--hot)'}"></div>`;
+    rows+=`<div class="prow ${d===0?'cur':''}"><span class="kcal">${fmt(R.tdee+d)}</span><div class="lane" title="${s}${d} ${T('perDayShort')}">${blk}</div><span class="wk ${cl}">${s}${fmt(wk)}</span><span class="${cl}">${s}${fmt(chg,2)}</span></div>`}
+  $('proj').innerHTML=rows;
+  renderDiets();
+  if(anim){countUp($('tdee'),R.tdee);countUp($('bmi'),+R.bmi.toFixed(1),1);$('pin').style.left='0%';setTimeout(()=>$('pin').style.left=Math.max(0,Math.min(100,pos))+'%',120)}
+  else{$('tdee').textContent=fmt(R.tdee);$('bmi').textContent=fmt(+R.bmi.toFixed(1),1)}
+}
+
+function renderDiets(){if(!S.res)return;const cal=S.res.tdee+S.goal,unit=S.lang==='id'?'kal':'cal';
+  $('diets').innerHTML=T('diets').map(([n,d,ben],i)=>{const pc=PCT[i],g=[Math.round(cal*pc[0]/400),Math.round(cal*pc[1]/400),Math.round(cal*pc[2]/900)];
     return `<div class="slab diet tilt"><div class="top"><h3>${n}</h3><span class="idx">0${i+1}</span></div><div class="d">${d}</div>
-    <div class="t"><span class="label" style="color:var(--ink)">Daily Target</span><b>${cal.toLocaleString()} cal</b></div>
+    <div class="t"><span class="label" style="color:var(--ink)">${T('target')}</span><b>${fmt(cal)} ${unit}</b></div>
     <div class="cyl">${pc.map((p,j)=>`<span style="width:${p}%;background:${MC[j]}"></span>`).join('')}</div>
-    <div class="macros">${['Protein','Carbs','Fat'].map((k,j)=>`<div class="m"><div class="k"><i style="background:${MC[j]}"></i>${k}</div><div class="v">${g[j]}g</div><div class="p">${pc[j]}%</div></div>`).join('')}</div>
-    <div class="label">Key Benefits</div><ul>${ben.map(b=>`<li>${b}</li>`).join('')}</ul></div>`}).join('');
+    <div class="macros">${T('macros').map((k,j)=>`<div class="m"><div class="k"><i style="background:${MC[j]}"></i>${k}</div><div class="v">${g[j]}g</div><div class="p">${pc[j]}%</div></div>`).join('')}</div>
+    <div class="label">${T('benefits')}</div><ul>${ben.map(x=>`<li>${x}</li>`).join('')}</ul></div>`}).join('');
   bindTilt($('diets'));
 }
+applyLang();
 </script>
 </body>
 </html>
